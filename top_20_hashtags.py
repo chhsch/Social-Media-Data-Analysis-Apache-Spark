@@ -23,7 +23,7 @@ def main():
         .getOrCreate()
 
     # Read tweets
-    tweet_data = spark.read.json('s3://p2-inputdata/smallTwitter.json').rdd
+    tweet_data = spark.read.json("inputfilepath").rdd
 
     # Process tweets
     hashtag_counts = process_tweets(tweet_data.map(lambda row: row.text))
@@ -35,7 +35,7 @@ def main():
     print_top_hashtags(top_hashtags)
 
     # Write to file
-    output_path = "s3://cloudcomputingvt/Sriharsha/top_20_hashtags.txt"
+    output_path = "outputfilepath"
     spark.sparkContext.parallelize([top_hashtags]).saveAsTextFile(output_path)
 
     spark.stop()
